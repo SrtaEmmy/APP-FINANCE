@@ -1,0 +1,111 @@
+{{#each errors}}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  {{text}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/each}}
+
+<p class="green_background  fixed-top h-25"> 
+  <div style="position: fixed;">
+    <a href="/chart"><i class="fa-sharp fa-solid fa-chart-simple fa-3x m-3" style="color: #fff;" ></i></a> 
+  </div>
+</p>
+
+
+
+{{!-- cards --}}
+<div class="head">
+  <h1 class="text-center mt-3 text-white">App Finance</h1>
+  <div class="container d-flex justify-content-center my-3">
+      <div class="card p-4 bg-light w-25 m-2 "><span class="lead d-flex justify-content-between">Ingresos <i class="fa-sharp fa-regular fa-circle-up" style="color: #19be34;"></i> </span> <h1>{{#if totalIncomes}} {{totalIncomes}} {{else}} 0 {{/if}} $</h1> </div>
+      <div class="card p-4 bg-light w-25 m-2 "><span class="lead d-flex justify-content-between">Gastos <i class="fa-sharp fa-regular fa-circle-down" style="color: #ff0000;"></i> </span> <h1>{{#if totalExpenses}} {{totalExpenses}} {{else}} 0 {{/if}} $</h1> </div>
+      <div class="card p-4 bg-light w-25 m-2 "><span class="lead d-flex justify-content-between">Total <i class="fa-sharp fa-solid fa-sack-dollar"></i> </span> <h1 {{#if isTotalNegative}}  class="text-danger" {{/if}}  > {{#if total}} {{total}} {{else}} 0 {{/if}} $</h1> </div>
+  </div>
+</div>
+
+
+{{!-- form --}}
+<div class="container d-flex justify-content-center  small">
+    <div class="card bg-light p-4  form-responsive">
+       <form action="/receive-new-info" method="post" class=" d-flex justify-content-between">
+        <div class="">
+        <label for="description">Descripción</label> <br>
+         <input name="description" placeholder="BurguerKing" type="text">
+        </div>
+
+         <div class="">
+        <label for="amount">Cantidad</label> <br>
+         <input name="amount" placeholder="10" type="text" >
+         </div>
+
+        <div class="">
+        <label for="income">Ingreso</label> <br>
+         <input value="true"  name="isIncome" type="radio">
+        </div>
+
+         <div class="">
+        <label for="expense">Gasto</label> <br>
+         <input value="false" name="isIncome"  type="radio">
+         </div>
+
+         <button class="btn bg-primary text-white">Add</button>
+       </form>
+    </div>
+</div>
+
+{{!-- list --}}
+<div class="container mx-auto m-5 w-75 gray-part p-4" style="border-radius: 8px;">
+   <div class="container">
+        <table class="table">
+  <thead >
+    <tr class="table-active text-center">
+      {{!-- <th scope="col" class="text-secondary">Fecha</th> --}}
+      <th scope="col">Descripción</th>
+      <th scope="col">Cantidad</th>
+      <th scope="col">Tipo</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  
+<tbody>
+  {{#each info}}
+    <tr class="text-center">
+      {{!-- <td class="text-secondary">{{ date}}</td> --}}
+      <td>{{description}}</td>
+      <td>{{amount}}</td>
+      <td>
+        {{#if isIncome}}
+          <i class="fa-sharp fa-regular fa-circle-up" style="color: #19be34;"></i>
+          <span style="display: inline-block; width: 60px;">Ingreso</span>
+        {{else}}
+          <i class="fa-sharp fa-regular fa-circle-down" style="color: #ff0000;"></i>
+          <span style="display: inline-block; width: 60px;">Gasto</span>
+        {{/if}}
+      </td>
+      <form action="/delete/{{_id}}/?_method=delete" method="post">
+        <input type="hidden" value="delete" name="_method">
+        <td><button type="submit" class="border-0 bg-transparent"><i class="fa-solid fa-trash"></i></button></td>
+      </form>
+    </tr>
+  {{/each}}
+</tbody>
+
+</table>
+
+
+   </div>
+</div>
+
+
+{{!-- chart --}}
+{{!-- <div class="container chartContainer" style=" overflow-y: hidden;">
+<iframe class="" src="chart" style="width: 1000px; height: 410px;" scrolling="no" frameborder="0"></iframe>
+</div> --}}
+
+<div class="container m-5">
+  <hr>
+</div>
+
+
+
+
